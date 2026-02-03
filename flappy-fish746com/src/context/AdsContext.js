@@ -130,58 +130,73 @@ export const AdsProvider = ({ children }) => {
   useEffect(() => {
     if (adsRemoved) return;
 
-    const rewarded = RewardedAd.createForAdRequest(getAdUnitId('REWARDED'), {
-      requestNonPersonalizedAdsOnly: true,
-    });
+    // Small delay to ensure SDK is fully initialized
+    const initDelay = setTimeout(() => {
+      const adUnitId = getAdUnitId('REWARDED');
+      console.log('[AdsManager] Creating rewarded ad with ID:', adUnitId);
+      
+      const rewarded = RewardedAd.createForAdRequest(adUnitId, {
+        requestNonPersonalizedAdsOnly: true,
+      });
 
-    const unsubscribeLoaded = rewarded.addAdEventListener(RewardedAdEventType.LOADED, () => {
-      setIsRewardedLoaded(true);
-      rewardedAdRetryCount.current = 0; // Reset retry count on success
-      console.log('[AdsManager] Rewarded ad loaded');
-    });
+      const unsubscribeLoaded = rewarded.addAdEventListener(RewardedAdEventType.LOADED, () => {
+        setIsRewardedLoaded(true);
+        rewardedAdRetryCount.current = 0; // Reset retry count on success
+        console.log('[AdsManager] Rewarded ad loaded successfully');
+      });
 
-    const unsubscribeEarned = rewarded.addAdEventListener(RewardedAdEventType.EARNED_REWARD, (reward) => {
-      console.log('[AdsManager] User earned reward:', reward);
-      if (rewardCallbackRef.current) {
-        rewardCallbackRef.current(reward);
-        rewardCallbackRef.current = null;
-      }
-    });
+      const unsubscribeEarned = rewarded.addAdEventListener(RewardedAdEventType.EARNED_REWARD, (reward) => {
+        console.log('[AdsManager] User earned reward:', reward);
+        if (rewardCallbackRef.current) {
+          rewardCallbackRef.current(reward);
+          rewardCallbackRef.current = null;
+        }
+      });
 
-    const unsubscribeClosed = rewarded.addAdEventListener(AdEventType.CLOSED, () => {
-      setIsRewardedLoaded(false);
-      console.log('[AdsManager] Rewarded ad closed, reloading immediately...');
-      // Reload immediately when closed
-      setTimeout(() => rewarded.load(), 100);
-    });
+      const unsubscribeClosed = rewarded.addAdEventListener(AdEventType.CLOSED, () => {
+        setIsRewardedLoaded(false);
+        console.log('[AdsManager] Rewarded ad closed, reloading immediately...');
+        // Reload immediately when closed
+        setTimeout(() => rewarded.load(), 100);
+      });
 
-    const unsubscribeError = rewarded.addAdEventListener(AdEventType.ERROR, (error) => {
-      console.log('[AdsManager] Rewarded ad error:', error);
-      setIsRewardedLoaded(false);
-      rewardedAdRetryCount.current += 1;
-      // Exponential backoff with max of 30 seconds
-      const retryDelay = Math.min(1000 * Math.pow(2, rewardedAdRetryCount.current), 30000);
-      console.log(`[AdsManager] Retrying rewarded ad in ${retryDelay}ms (attempt ${rewardedAdRetryCount.current})`);
-      setTimeout(() => rewarded.load(), retryDelay);
-    });
+      const unsubscribeError = rewarded.addAdEventListener(AdEventType.ERROR, (error) => {
+        console.log('[AdsManager] Rewarded ad error code:', error.code, 'message:', error.message);
+        setIsRewardedLoaded(false);
+        rewardedAdRetryCount.current += 1;
+        // Exponential backoff with max of 30 seconds
+        const retryDelay = Math.min(1000 * Math.pow(2, rewardedAdRetryCount.current), 30000);
+        console.log(`[AdsManager] Retrying rewarded ad in ${retryDelay}ms (attempt ${rewardedAdRetryCount.current})`);
+        setTimeout(() => rewarded.load(), retryDelay);
+      });
 
-    rewardedRef.current = rewarded;
-    rewarded.load();
+      rewardedRef.current = rewarded;
+      console.log('[AdsManager] Loading rewarded ad...');
+      rewarded.load();
 
-    // Also preload periodically to ensure ad is ready
-    const preloadInterval = setInterval(() => {
-      if (!isRewardedLoaded && rewardedRef.current) {
-        console.log('[AdsManager] Periodic rewarded ad preload check');
-        rewardedRef.current.load();
-      }
-    }, 15000); // Check every 15 seconds
+      // Also preload periodically to ensure ad is ready
+      const preloadInterval = setInterval(() => {
+        if (!isRewardedLoaded && rewardedRef.current) {
+          console.log('[AdsManager] Periodic rewarded ad preload check');
+          rewardedRef.current.load();
+        }
+      }, 15000); // Check every 15 seconds
+
+      // Store cleanup functions
+      rewardedRef.current._cleanup = () => {
+        unsubscribeLoaded();
+        unsubscribeEarned();
+        unsubscribeClosed();
+        unsubscribeError();
+        clearInterval(preloadInterval);
+      };
+    }, 1000);
 
     return () => {
-      unsubscribeLoaded();
-      unsubscribeEarned();
-      unsubscribeClosed();
-      unsubscribeError();
-      clearInterval(preloadInterval);
+      clearTimeout(initDelay);
+      if (rewardedRef.current?._cleanup) {
+        rewardedRef.current._cleanup();
+      }
     };
   }, [adsRemoved]);
 
