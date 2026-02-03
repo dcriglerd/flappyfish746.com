@@ -204,34 +204,49 @@ export const AdsProvider = ({ children }) => {
   useEffect(() => {
     if (adsRemoved) return;
 
-    const appOpen = AppOpenAd.createForAdRequest(getAdUnitId('APP_OPEN'), {
-      requestNonPersonalizedAdsOnly: true,
-    });
+    // Small delay to ensure SDK is fully initialized
+    const initDelay = setTimeout(() => {
+      const adUnitId = getAdUnitId('APP_OPEN');
+      console.log('[AdsManager] Creating app open ad with ID:', adUnitId);
+      
+      const appOpen = AppOpenAd.createForAdRequest(adUnitId, {
+        requestNonPersonalizedAdsOnly: true,
+      });
 
-    const unsubscribeLoaded = appOpen.addAdEventListener(AdEventType.LOADED, () => {
-      setIsAppOpenLoaded(true);
-      console.log('[AdsManager] App Open ad loaded');
-    });
+      const unsubscribeLoaded = appOpen.addAdEventListener(AdEventType.LOADED, () => {
+        setIsAppOpenLoaded(true);
+        console.log('[AdsManager] App Open ad loaded successfully');
+      });
 
-    const unsubscribeClosed = appOpen.addAdEventListener(AdEventType.CLOSED, () => {
-      setIsAppOpenLoaded(false);
-      console.log('[AdsManager] App Open ad closed, reloading...');
+      const unsubscribeClosed = appOpen.addAdEventListener(AdEventType.CLOSED, () => {
+        setIsAppOpenLoaded(false);
+        console.log('[AdsManager] App Open ad closed, reloading...');
+        appOpen.load();
+      });
+
+      const unsubscribeError = appOpen.addAdEventListener(AdEventType.ERROR, (error) => {
+        console.log('[AdsManager] App Open ad error code:', error.code, 'message:', error.message);
+        setIsAppOpenLoaded(false);
+        setTimeout(() => appOpen.load(), 5000);
+      });
+
+      appOpenRef.current = appOpen;
+      console.log('[AdsManager] Loading app open ad...');
       appOpen.load();
-    });
 
-    const unsubscribeError = appOpen.addAdEventListener(AdEventType.ERROR, (error) => {
-      console.log('[AdsManager] App Open ad error:', error);
-      setIsAppOpenLoaded(false);
-      setTimeout(() => appOpen.load(), 5000);
-    });
-
-    appOpenRef.current = appOpen;
-    appOpen.load();
+      // Store cleanup functions
+      appOpenRef.current._cleanup = () => {
+        unsubscribeLoaded();
+        unsubscribeClosed();
+        unsubscribeError();
+      };
+    }, 1000);
 
     return () => {
-      unsubscribeLoaded();
-      unsubscribeClosed();
-      unsubscribeError();
+      clearTimeout(initDelay);
+      if (appOpenRef.current?._cleanup) {
+        appOpenRef.current._cleanup();
+      }
     };
   }, [adsRemoved]);
 
