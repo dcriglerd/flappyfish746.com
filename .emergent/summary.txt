@@ -3,129 +3,134 @@ The user requested a Flappy Bird clone named Flappy Fish to be built as a React 
 
 **PRODUCT REQUIREMENTS:**
 1.  **Core Gameplay:** A Flappy Bird clone with tap-to-swim mechanics, built with React Native and Expo.
-2.  **Monetization (Original):** The initial plan included real in-app purchases (IAPs) for coins and removing ads via RevenueCat, plus real in-game ads (Banner, Interstitial, Rewarded, App Open) via Google AdMob. **Note:** The IAP/Shop feature was later removed at the user's request.
+2.  **Monetization:** Real in-game ads (Banner, Interstitial, Rewarded, App Open) via Google AdMob. The IAP/Shop feature was removed at the user's request.
 3.  **Features:**
     *   Power-ups: Bubble Shield, Slow Motion, Coin Magnet, Double Coins.
     *   Customization: Unlockable fish skins.
-    *   Cloud Data Sync: A FastAPI/MongoDB backend to save and load user progress (high score, coins, unlocks).
+    *   Cloud Data Sync: A FastAPI/MongoDB backend to save and load user progress (high score, coins, unlocks, username).
     *   Leaderboard: A UI to display global high scores from the backend.
     *   Achievements System: Unlockable achievements with notifications.
     *   Daily Rewards: A system for daily streaks and challenges to earn rewards.
     *   Push Notifications: Reminders for daily streaks.
-4.  **Platform:** A React Native mobile app built with Expo, requiring a development build for full functionality.
+4.  **Platform:** A React Native mobile app built with Expo, ready for Google Play Store submission.
+5.  **Website:** A promotional landing page for the mobile app, hosted at .
 
 **User's preferred language**: English
 
 **what currently exists?**
-A nearly complete React Native (Expo) mobile application located in  and a corresponding FastAPI backend in . The original web app and  directory are now obsolete references.
+A nearly complete React Native (Expo) mobile application is in , and a corresponding FastAPI backend is in .
 
--   **Mobile App ():** Contains the core game logic, UI for all implemented features (Skins, Leaderboard, Achievements, Daily Rewards), sound effects, and integrations for Google AdMob. The project is set up for EAS Build.
--   **Backend ():** A live FastAPI server connected to MongoDB, with endpoints for saving/loading game data and providing leaderboard scores. It has been updated to support usernames.
--   **Removed Features:** The in-game Shop and the Remove Ads IAP functionality were recently removed at the user's request. Some cleanup may still be required.
+-   **Mobile App ():** Contains the core game logic and UI for all implemented features (Skins, Leaderboard, Achievements, Daily Rewards), sound effects, and Google AdMob integration. The project is configured for EAS Build and Play Store submission. All IAP/Shop code has been removed.
+-   **Backend ():** A live FastAPI server connected to MongoDB, with endpoints for saving/loading game data and providing leaderboard scores.
+-   **Website ():** A new static HTML/CSS promotional landing page has been created to support the mobile app. It includes a privacy policy and  file, ready for deployment. A playable web version was created and then reverted at the user's request.
 
 **Last working item**:
--   Last item agent was working: Removing the Shop and Remove Ads sections from the application as requested by the user. The agent has removed the UI elements from  and .
--   Status: **IN PROGRESS**
--   Agent Testing Done: **N**
--   Which testing method agent to use? **Manual testing**. The next agent must build and run the app to verify the shop and related buttons are completely gone and that their removal has not caused any regressions.
--   User Testing Done: **N**
+-   Last item agent was working: The user asked for the next steps after adding screenshots to the Google Play Console. The agent provided a comprehensive, step-by-step guide covering the remaining policy sections, data safety form, and submission process.
+-   Status: NONE
+-   Agent Testing Done: N/A
+-   Which testing method agent to use? N/A
+-   User Testing Done: N/A
 
 **All Pending/In progress Issue list**:
--   Issue 1: Fix Ad Scheduling (P0)
--   Issue 2: Remove remaining Shop/IAP code (P1)
--   Issue 3: Investigate Watch Ad to Revive inconsistency (P2)
+-   Issue 1: Ads not showing in the latest build (P0)
+-   Issue 2: Finalize Google Play Store Submission (P1)
+-   Issue 3: Finalize Deep Links Setup (P2)
 
 **Issues Detail:**
--   **Issue 1: Fix Ad Scheduling**
-    -   **Description:** The user reported that the ad scheduling is not working as implemented. The current logic is intended to show an interstitial ad every 3 game starts and every 5 game overs, but this is not behaving as expected.
-    -   **Attempted fixes:** The agent created the  logic in  and added the  config. This fix was not successful according to the user.
+-   **Issue 1: Ads not showing in the latest build**
+    -   **Description:** The user reported that after the agent's recent changes to ad frequency, no ads are showing at all in the new preview build.
+    -   **Attempted fixes:** The agent identified that a  flag in  was causing the preview build to use test ad IDs instead of production IDs. The agent removed the  check and initiated a new EAS build.
     -   **Next debug checklist:**
-        1.  Review the counters (, ) in .
-        2.  Add console logs to trace when  and  are called and what the counter values are at those times.
-        3.  Run the app in a dev client to manually test the ad frequency over at least 6 game starts and 10 game overs to observe the behavior directly.
-    -   **Why fix this issue and what will be achieved with the fix?** To ensure ads are shown at a non-intrusive frequency that the user is happy with, improving player retention.
+        1.  Confirm with the user if they have downloaded and tested the latest APK from the build link: .
+        2.  If ads are still not showing, check the ad logic in  for any other potential issues.
+        3.  Verify the production ad unit IDs in  are correct.
+    -   **Why fix this issue and what will be achieved with the fix?** This is critical for the app's monetization. Fixing it will ensure production ads are served correctly, allowing the user to generate revenue.
+    -   **Status:** USER VERIFICATION PENDING
+    -   **Is recurring issue?** Y
+    -   **Should Test frontend/backend/both after fix?** Frontend (Mobile App)
+    -   **Blocked on other issue:** None
+
+-   **Issue 2: Finalize Google Play Store Submission**
+    -   **Description:** The user is in the process of submitting the app to the Google Play Store but is blocked because their privacy policy link () is not working. The website has not been deployed yet.
+    -   **Attempted fixes:** The agent provided detailed, step-by-step guides with visual mockups for deploying the website using both Cloudflare Pages and GitHub Pages. The user chose GitHub Pages.
+    -   **Next debug checklist:**
+        1.  Guide the user through the GitHub Pages deployment process for the files located in .
+        2.  Ensure the user successfully creates the  file with the privacy policy content.
+        3.  Help the user find their live GitHub Pages URL.
+        4.  Instruct the user to use this live URL in the Google Play Console.
+    -   **Why fix this issue and what will be achieved with the fix?** A working privacy policy URL is a mandatory requirement for submitting an app with ads to the Google Play Store.
     -   **Status:** IN PROGRESS
-    -   **Is recurring issue?** Y
-    -   **Should Test frontend/backend/both after fix?** Frontend (Mobile App)
--   **Issue 2: Remove remaining Shop/IAP code**
-    -   **Description:** While the UI for the shop was removed, the underlying component files and context logic for IAPs likely still exist.
-    -   **Next debug checklist:**
-        1.  Delete the unused component file: .
-        2.  Review  and remove all logic related to fetching offerings and making purchases. The context can be simplified to just handle the  state if needed elsewhere, or removed entirely if not.
-        3.  Review  and remove the  function and any logic that checks the  status.
-    -   **Why fix this issue and what will be achieved with the fix?** Reduces codebase complexity and removes dead code, making the app easier to maintain.
-    -   **Status:** NOT STARTED
     -   **Is recurring issue?** N
-    -   **Should Test frontend/backend/both after fix?** Frontend (Mobile App)
--   **Issue 3: Investigate Watch Ad to Revive inconsistency**
-    -   **Description:** The user reported that the rewarded ad for reviving the player is not working consistently.
-    -   **Attempted fixes:** The agent added retry logic with exponential backoff and periodic preloading to .
+    -   **Should Test frontend/backend/both after fix?** N/A
+    -   **Blocked on other issue:** None
+
+-   **Issue 3: Finalize Deep Links Setup**
+    -   **Description:** The agent has configured  for deep linking and created a placeholder  file. The setup is blocked because it requires the app's SHA-256 fingerprint, which is only generated after the app is uploaded to the Google Play Console for the first time.
+    -   **Attempted fixes:** The agent tried multiple methods to extract the SHA-256 fingerprint locally but failed. The agent then created a guide for the user on how to find it in the Play Console after uploading the AAB.
     -   **Next debug checklist:**
-        1.  Verify if this is still an issue after fixing the other ad scheduling problems.
-        2.  Add extensive logging around the  and  functions in  to track loading state, errors, and show attempts.
-    -   **Why fix this issue and what will be achieved with the fix?** A reliable revive mechanism improves player experience and provides an ad monetization opportunity.
-    -   **Status:** NOT STARTED
-    -   **Is recurring issue?** Y
-    -   **Should Test frontend/backend/both after fix?** Frontend (Mobile App)
+        1.  Once the user successfully submits the app to the Play Console (even for internal testing), guide them to find the SHA-256 fingerprint under App signing.
+        2.  Instruct the user to update the  file in their website repository with the correct fingerprint.
+        3.  Trigger a new EAS build to include the final deep link configuration.
+    -   **Why fix this issue and what will be achieved with the fix?** Enables users to open the app directly by clicking a link to .
+    -   **Status:** BLOCKED
+    -   **Is recurring issue?** N
+    -   **Should Test frontend/backend/both after fix?** Both (Website deployment and a new mobile build)
+    -   **Blocked on other issue:** Issue 2: Finalize Google Play Store Submission
 
 **In progress Task List**:
 The pending issues cover all in-progress work.
 
 **Upcoming and Future Tasks**
-Future Tasks:
+**Upcoming Tasks:**
+-   **Add Google Analytics to Website (P1):** The user approved adding analytics to the website but was interrupted by the ad functionality bug. The agent should resume this once the ad issue is resolved.
+
+**Future Tasks:**
 -   **Onboarding/Tutorial:** Add a simple tutorial for new players.
 -   **Social Features:** Consider adding features like sharing high scores.
 
 **Completed work in this session**
--   **Feature/Achievements & Cloud Sync:** Integrated the achievements system fully with the backend cloud sync.
--   **Feature/Daily Rewards:** Implemented a daily rewards system with streaks and challenges (, ).
--   **Feature/Push Notifications:** Added push notification reminders for daily streaks using Expo Notifications ().
--   **Feature/User Authentication:** Replaced the mock user ID with a persistent, device-based ID and added a username feature with a UI modal (, ).
--   **Backend/Username Support:** Updated the FastAPI backend () and database schema to store and display usernames on the leaderboard.
--   **Builds/EAS Project Migration:** Created a new, clean Expo project in , migrated all code, and successfully ran multiple EAS builds to generate APKs for user testing.
--   **Bugfix/Ad Interruptions:** Modified the ad system to prevent ads and achievement popups from interrupting active gameplay.
+-   **IAP/Shop Removal:** Completely removed the IAP shop feature, including deleting , removing the  dependency, and cleaning up related code in , , and .
+-   **Ad Logic Refactoring:** Made multiple attempts to fix ad scheduling. The latest fix addresses a  flag issue causing preview builds to use test ads. Enabled App Open ads and increased the frequency of all ad types.
+-   **Play Store Asset Generation:**
+    -   Created a production AAB file for Play Store submission.
+    -   Wrote a detailed store listing description and privacy policy.
+    -   Created an  file for AdMob verification.
+    -   Generated numerous screenshots (phone, 7-inch tablet, 10-inch tablet) and resized them to meet specific Play Store aspect ratio and resolution requirements.
+-   **Website Creation:** Built a static HTML/CSS promotional landing page for . A playable web version was also created but then reverted at the user's request.
+-   **User Guidance:** Provided comprehensive, step-by-step guides for Google Play Store submission, deploying the website via Cloudflare/GitHub Pages, and setting up deep links.
 
 **Earlier issues found/mentioned but not fixed**
-Covered in the **All Pending/In progress Issue list**.
+-   **Investigate Watch Ad to Revive inconsistency:** This was mentioned in the initial handoff. The recent ad logic overhaul might have affected it. This should be re-verified by the user after the main ad functionality is confirmed to be working.
 
 **Known issue recurrence from previous fork**
-None.
+-   **Ad Scheduling/Functionality:** The user has repeatedly reported that ads are not working as expected. This remains the most critical and recurring issue.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Frontend:** React Native, Expo (EAS Build), 
+-   **Frontend:** React Native, Expo (EAS Build)
 -   **Backend:** FastAPI, MongoDB
 -   **State Management:** React Context API
 -   **Integrations:**  (AdMob), , , 
+-   **Website:** Static HTML/CSS
 
 **key DB schema**
 -   **Collection:** 
-    -    (Primary Key)
-    -   
-    -   
-    -   
-    -   
-    -   
-    -   
-    -   
+    -   , , , , , , 
 
 **changes in tech stack**
--    was added for push notification reminders.
--    was added for a more persistent device ID for authentication.
+-   The  (RevenueCat) package was removed.
 
 **All files of reference**
--   **Active Project Root:** 
 -   **Ad Logic:** 
 -   **Ad Config:** 
--   **Main Game Screen:** 
--   **App Entry Point:** 
--   **Backend Server:** 
--   **EAS Config:** 
+-   **Expo Config:** 
+-   **Website Files:** 
+-   **Guides:**  (multiple guides created)
 
 **Areas that need refactoring**:
--   The EAS build process has been unreliable in the non-interactive environment, frequently timing out or failing. The  script approach has also been flaky. A more robust, command-line-driven build trigger is needed. Using  with pre-configured credentials might be a more stable path.
+-   The EAS build process continues to be a source of delays due to the free-tier queue. This is a workflow issue rather than a code issue.
 
 **key api endpoints**
 -   : Create or update a user's game data.
@@ -133,34 +138,40 @@ None.
 -   : Get the top players by high score.
 
 **Critical Info for New Agent**
--   **Project Location:** The current and active project is . Do not use .
--   **Top Priority is Ad Bugs:** The user is primarily concerned with fixing the ad behavior. Address the Ad Scheduling and Revive Ad issues first.
--   **Shop Is Removed:** Do not attempt to fix or re-implement the IAP shop. The task is to complete its removal from the codebase.
--   **EAS Build Required:** All testing requires building a new APK via EAS. The last successful build command was .
+-   **Top Priority is Ad Fix Verification:** The most urgent task is to have the user test the latest APK to confirm the ad functionality is fixed. This is a major blocker for the user.
+-   **Guide the User Through Deployment:** The user needs hand-holding to deploy their website to get the privacy policy URL live. They have chosen GitHub Pages.
+-   **Deep Links Blocked on User Action:** The deep link setup cannot be completed until the user uploads the app to the Play Store and provides the SHA-256 fingerprint. Do not attempt to guess or extract it again.
+-   **The project now has a static website:** All web-related files are in .
 
 **documents and test reports created in this job**
 -   
--    (An  script for builds, which has been unreliable).
+-   
+-   
+-    (renamed privacy policy for GitHub Pages)
+-   
+-   
+-   
+-   
+-    (updated)
 
 **Last 10 User Messages and any pending HUMAN messages**
-1.  **User:** Remove shop section and tje remove ads section. -> **Status: IN PROGRESS**. Agent started removal.
-2.  **User:** The shop purchases aren't working and the ad scheduling isn't working as implemented. -> **Status: IN PROGRESS**. Shop issue is now a removal task. Ad scheduling is the highest priority bug.
-3.  **User:** The watch ad to revive isn't working consistently and implement ads every few start overs. -> **Status: IN PROGRESS**. Agent implemented a fix, but it needs re-verification as the user is still reporting ad issues.
-4.  **User:** Reduce frequency of achievement unlocked pop up. Its also interrupting gameplay. -> **Status: Completed**. Agent fixed this by queuing notifications.
-5.  **User:** Regular gameplay is being interrupted by ads how can I change that. -> **Status: Completed**. Agent implemented a fix, but the core scheduling is still faulty.
-6.  **User:**  -> **Status: Obsolete**. User provided a RevenueCat App ID. This led to the discovery that IAP was broken, and then the request to remove it.
-7.  **User:** No (don't change package name) -> **Status: Completed**.
-8.  **User:** What's google play package name -> **Status: Completed**. Agent provided the name.
-9.  **User:** Implement real ads -> **Status: Completed**. Agent confirmed they were already live.
-10. **User:**  (EAS Token) -> **Status: Completed**. Used to link the new project.
+1.  **Next steps after adding screenshots...**: User asking for guidance on Play Store submission. (COMPLETED)
+2.  **My privacy policy link isnt working"**: User identified a blocker for submission. (IN PROGRESS)
+3.  **"Deploy to cloudflare"**: User chose a deployment method. (SUPERSEDED)
+4.  **"Adding dns records to cloudflare"**: User asking for DNS details. (SUPERSEDED)
+5.  **"use github pages instead for website deployment"**: User changed their mind on deployment method. (IN PROGRESS)
+6.  **"provide screenshots of steps 2 thru 5"**: User requested visual guide for GitHub Pages. (COMPLETED)
+7.  **"What do i do if I cant see my site is live after step 4**: User asking for troubleshooting steps. (COMPLETED)
+8.  **Next steps**: User ready to proceed with Play Store submission. (COMPLETED)
+9.  **Generate 2 more phone screenshots...**: User requested more assets. (COMPLETED)
+10. **Next steps after adding screenshots...**: User asking again for guidance. (COMPLETED)
 
 **Project Health Check:**
--   **Broken:** Ad scheduling logic. Potentially the watch ad to revive feature.
--   **Mocked:** None. The previously broken IAP system is now being removed.
+-   **Broken:** Ad functionality is unverified and has been a recurring problem. The latest build is pending user testing.
+-   **Mocked:** None.
 
 **3rd Party Integrations**
--   **react-native-google-mobile-ads:** For Google AdMob ads. Configured with user's production keys.
--   **react-native-purchases:** For RevenueCat. This integration is being removed.
+-   **react-native-google-mobile-ads:** For Google AdMob ads.
 -   **expo-av:** For audio playback.
 -   **expo-notifications:** For push notifications.
 -   **expo-application:** For device-based user authentication.
@@ -169,11 +180,10 @@ None.
 -   Testing agent used after significant changes: NO
 -   Troubleshoot agent used after agent stuck in loop: NO
 -   Test files created: []
--   Known regressions: The ad scheduling logic is not working as intended after the last modification.
+-   Known regressions: Ads were reported as not working in the last user-tested build. A fix has been built but is pending verification.
 
 **Credentials to test flow:**
--   **AdMob IDs:** Already configured in  and .
+-   **AdMob IDs:** Configured in .
 
 **What agent forgot to execute**
--   The agent did not complete the full removal of the shop/IAP feature; leftover files and code logic still need to be cleaned up.
--   The agent did not establish a reliable, non-interactive method for triggering EAS builds, resulting in multiple timeouts and failed attempts.</analysis>
+-   The agent was asked to **add Google Analytics** to the website, and the user approved it. However, this task was interrupted by the more critical ads not working bug report. This should be picked up as an upcoming task.</analysis>
