@@ -25,17 +25,17 @@ export default function App() {
     try {
       setInitStatus('Initializing ads...');
       
-      // Configure ad request settings
+      // Configure ad request settings - removed testDeviceIdentifiers for production
       await mobileAds().setRequestConfiguration({
         maxAdContentRating: 'G',
         tagForChildDirectedTreatment: false,
         tagForUnderAgeOfConsent: false,
-        testDeviceIdentifiers: ['EMULATOR'],
       });
 
       // Initialize Google Mobile Ads SDK
-      await mobileAds().initialize();
+      const adapterStatuses = await mobileAds().initialize();
       console.log('[App] Google Mobile Ads SDK initialized');
+      console.log('[App] Adapter statuses:', JSON.stringify(adapterStatuses));
 
       setInitStatus('Ready!');
       setIsReady(true);
