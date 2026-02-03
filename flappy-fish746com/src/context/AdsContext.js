@@ -71,43 +71,58 @@ export const AdsProvider = ({ children }) => {
   useEffect(() => {
     if (adsRemoved) return;
 
-    const interstitial = InterstitialAd.createForAdRequest(getAdUnitId('INTERSTITIAL'), {
-      requestNonPersonalizedAdsOnly: true,
-    });
+    // Small delay to ensure SDK is fully initialized
+    const initDelay = setTimeout(() => {
+      const adUnitId = getAdUnitId('INTERSTITIAL');
+      console.log('[AdsManager] Creating interstitial with ID:', adUnitId);
+      
+      const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+        requestNonPersonalizedAdsOnly: true,
+      });
 
-    const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-      setIsInterstitialLoaded(true);
-      console.log('[AdsManager] Interstitial loaded');
-    });
+      const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+        setIsInterstitialLoaded(true);
+        console.log('[AdsManager] Interstitial loaded successfully');
+      });
 
-    const unsubscribeClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
-      setIsInterstitialLoaded(false);
-      console.log('[AdsManager] Interstitial closed, reloading...');
+      const unsubscribeClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+        setIsInterstitialLoaded(false);
+        console.log('[AdsManager] Interstitial closed, reloading...');
+        interstitial.load();
+      });
+
+      const unsubscribeError = interstitial.addAdEventListener(AdEventType.ERROR, (error) => {
+        console.log('[AdsManager] Interstitial error code:', error.code, 'message:', error.message);
+        setIsInterstitialLoaded(false);
+        setTimeout(() => interstitial.load(), 5000);
+      });
+
+      interstitialRef.current = interstitial;
+      console.log('[AdsManager] Loading interstitial ad...');
       interstitial.load();
-    });
 
-    const unsubscribeError = interstitial.addAdEventListener(AdEventType.ERROR, (error) => {
-      console.log('[AdsManager] Interstitial error:', error);
-      setIsInterstitialLoaded(false);
-      setTimeout(() => interstitial.load(), 5000);
-    });
+      // Periodic preload check for interstitial
+      const preloadInterval = setInterval(() => {
+        if (!isInterstitialLoaded && interstitialRef.current) {
+          console.log('[AdsManager] Periodic interstitial preload');
+          interstitialRef.current.load();
+        }
+      }, 15000); // Check every 15 seconds
 
-    interstitialRef.current = interstitial;
-    interstitial.load();
-
-    // Periodic preload check for interstitial
-    const preloadInterval = setInterval(() => {
-      if (!isInterstitialLoaded && interstitialRef.current) {
-        console.log('[AdsManager] Periodic interstitial preload');
-        interstitialRef.current.load();
-      }
-    }, 15000); // Check every 15 seconds
+      // Store cleanup functions
+      interstitialRef.current._cleanup = () => {
+        unsubscribeLoaded();
+        unsubscribeClosed();
+        unsubscribeError();
+        clearInterval(preloadInterval);
+      };
+    }, 1000);
 
     return () => {
-      unsubscribeLoaded();
-      unsubscribeClosed();
-      unsubscribeError();
-      clearInterval(preloadInterval);
+      clearTimeout(initDelay);
+      if (interstitialRef.current?._cleanup) {
+        interstitialRef.current._cleanup();
+      }
     };
   }, [adsRemoved]);
 
