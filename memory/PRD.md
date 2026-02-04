@@ -3,124 +3,113 @@
 ## Original Problem Statement
 Build a "Flappy Bird" clone named "Flappy Fish" as a React Native mobile application with monetization through Google AdMob ads.
 
-## Project Overview
-- **Platform:** React Native (Expo) mobile app
-- **Backend:** FastAPI + MongoDB for cloud sync and leaderboards
-- **Monetization:** Google AdMob (Banner, Interstitial, Rewarded, App Open ads)
-
 ## Core Features
+1. **Gameplay:** Tap-to-swim mechanics through coral obstacles
+2. **Monetization:** Google AdMob (Banner, Interstitial, Rewarded, App Open ads)
+3. **Customization:** 8 unlockable fish skins
+4. **Power-ups:** Bubble Shield, Slow Motion, Coin Magnet, Double Coins
+5. **Cloud Sync:** FastAPI/MongoDB backend for progress saving
+6. **Leaderboard:** Global high score competition
+7. **Achievements:** 20+ unlockable achievements
+8. **Daily Rewards:** Streak bonuses and daily challenges
+9. **Push Notifications:** Streak reminders
 
-### Gameplay
-- Tap-to-swim mechanics
-- Obstacle avoidance (pipes)
-- Coin collection
-- Score tracking
+## Tech Stack
+- **Frontend:** React Native, Expo (EAS Build)
+- **Backend:** FastAPI, MongoDB
+- **Ads:** react-native-google-mobile-ads
+- **State:** React Context API
 
-### Customization
-- 6 unlockable fish skins (Golden, Neon, Rainbow, etc.)
-- Skins purchased with in-game coins
-
-### Power-Ups
-- Bubble Shield - Survive one hit
-- Slow Motion - Slows game speed
-- Coin Magnet - Attracts coins
-- Double Coins - 2x coin multiplier
-
-### Progression
-- Cloud data sync (high score, coins, unlocks)
-- Global leaderboard with usernames
-- 15+ achievements with rewards
-- Daily rewards with streak system
-- Push notification reminders
-
-### Monetization
-- Banner ads (menu & game over screens)
-- Interstitial ads (every 2 deaths, every 2 game starts)
-- Rewarded ads (watch to revive)
-- App Open ads (on launch, 1 min cooldown)
-
-## What's Been Implemented
-
-### January 2025
-- [x] Core game mechanics and UI
-- [x] All fish skins and power-ups
-- [x] Cloud sync with FastAPI/MongoDB backend
-- [x] Global leaderboard with usernames
-- [x] Achievements system (15+ achievements)
-- [x] Daily rewards with streaks
-- [x] Push notifications for daily reminders
-- [x] Google AdMob integration (all ad types)
-- [x] Shop/IAP removal (user requested)
-- [x] Ad frequency optimization
-- [x] Landing page website created
-- [x] Privacy policy created
-- [x] Google Play Store assets (icon, screenshots, descriptions)
-- [x] Production AAB built for Play Store submission
-
-## Technical Architecture
-
+## Project Structure
 ```
 /app/
 ├── backend/
-│   └── server.py             # FastAPI backend
-└── flappy-fish746com/        # React Native mobile app
+│   └── server.py
+└── flappy-fish746com/
     ├── src/
-    │   ├── components/       # UI components
+    │   ├── components/
     │   ├── constants/
-    │   │   └── config.js     # Ad Unit IDs, game config
-    │   ├── context/          # State management
-    │   │   ├── AdsContext.js
-    │   │   ├── GameContext.js
-    │   │   ├── AuthContext.js
-    │   │   ├── CloudSyncContext.js
-    │   │   ├── AchievementsContext.js
-    │   │   └── DailyRewardsContext.js
+    │   ├── context/
     │   ├── data/
     │   └── screens/
-    │       └── FlappyFishGame.js
-    └── website/              # Landing page for flappyfish746.com
-        ├── index.html
-        ├── privacy-policy.html
-        └── ads.txt
+    ├── website/
+    │   ├── .well-known/assetlinks.json
+    │   ├── index.html
+    │   ├── privacy-policy.html
+    │   └── ads.txt
+    ├── app.json
+    ├── eas.json
+    └── package.json
 ```
+
+## What's Been Implemented ✅
+
+### Session: February 2026
+- [x] Fixed ad initialization (removed testDeviceIdentifiers blocker)
+- [x] Added 1-second SDK initialization delay
+- [x] Improved ad error logging
+- [x] Built preview APK for testing
+- [x] Enabled ProGuard for production builds
+- [x] Generated AAB with version code 2
+- [x] Deobfuscation/mapping file included in AAB
+
+### Previous Sessions
+- [x] Core Flappy Fish gameplay
+- [x] All ad types (Banner, Interstitial, Rewarded, App Open)
+- [x] 8 fish skins with unlock system
+- [x] 4 power-ups
+- [x] Cloud sync backend
+- [x] Global leaderboard
+- [x] Achievements system
+- [x] Daily rewards & streaks
+- [x] Push notifications
+- [x] Static promotional website
+- [x] Privacy policy page
+- [x] ads.txt for AdMob verification
+- [x] Deep link configuration (pending SHA-256)
+- [x] IAP/Shop removal (per user request)
+
+## Current Build Info
+| Field | Value |
+|-------|-------|
+| Version Name | 1.0.0 |
+| Version Code | 2 |
+| Package | com.flappyfish.game |
+| Latest AAB | https://expo.dev/artifacts/eas/oYegpqEVEF8PGuxSk4KtYP.aab |
+
+## Pending Tasks
+
+### P1 - In Progress
+- [ ] Deploy website to GitHub Pages (for privacy policy URL)
+- [ ] Complete Google Play Store submission
+- [ ] Verify ads working in production
+
+### P2 - Blocked
+- [ ] Finalize deep links (needs SHA-256 from Play Console after upload)
+
+### P3 - Future/Backlog
+- [ ] Add Google Analytics to website
+- [ ] Onboarding/Tutorial for new players
+- [ ] Social sharing features
+
+## API Endpoints
+- `POST /api/gamedata/` - Create/update user game data
+- `GET /api/gamedata/{user_id}/` - Get user's game data
+- `GET /api/leaderboard/` - Get top players
 
 ## Database Schema
 **Collection:** `game_data`
-- `user_id: string` (Primary Key - device ID)
+- `user_id: string`
 - `username: string`
 - `high_score: int`
 - `coins: int`
 - `unlocked_skins: list`
 - `unlocked_achievements: list`
-- `achievement_stats: dict`
 - `updated_at: datetime`
 
-## API Endpoints
-- `POST /api/gamedata/` - Save user game data
-- `GET /api/gamedata/{user_id}/` - Load user game data
-- `GET /api/leaderboard/` - Get global high scores
-
-## Ad Configuration
-```javascript
-INTERSTITIAL_FREQUENCY: 2        // Every 2 deaths
-INTERSTITIAL_START_FREQUENCY: 2  // Every 2 game starts
-APP_OPEN_COOLDOWN: 60000         // 1 minute cooldown
-DISABLE_APP_OPEN_ADS: false      // Enabled
-```
-
-## Pending Tasks (P0)
-1. User to test new APK with improved ad frequency
-2. Deploy website to Cloudflare Pages
-3. Submit app to Google Play Store
-4. Update Play Store with website URLs
-
-## Future Enhancements (P1)
-- Onboarding/Tutorial for new players
-- Social features (share high scores)
-- iOS version
-
-## Assets & Links
-- **Latest APK:** https://expo.dev/accounts/dcriglerd/projects/flappy-fish746com/builds/1b9b83a0-9b42-42fb-85d4-af90521e02da
-- **Production AAB:** https://expo.dev/artifacts/eas/cKhKRk42vuxpnyZZkwVg4u.aab
-- **Domain:** https://flappyfish746.com
-- **AdMob Publisher ID:** pub-9210526164379066
+## AdMob Configuration
+- **App ID:** ca-app-pub-9210526164379066~4938293330
+- **Banner:** ca-app-pub-9210526164379066/2829853361
+- **Interstitial:** ca-app-pub-9210526164379066/1429141788
+- **Rewarded:** ca-app-pub-9210526164379066/7004902096
+- **App Open:** ca-app-pub-9210526164379066/3250641298
