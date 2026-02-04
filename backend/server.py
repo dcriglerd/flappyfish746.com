@@ -275,6 +275,91 @@ class DataDeletionResponse(BaseModel):
     message: str
     deleted_records: int
 
+@api_router.get("/user/delete-request")
+async def data_deletion_info():
+    """
+    Data deletion information page (GET request for Play Store verification).
+    Returns HTML page with deletion instructions.
+    """
+    from fastapi.responses import HTMLResponse
+    
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Flappy Fish - Delete Your Data</title>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                line-height: 1.6;
+                background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 16px;
+                padding: 40px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            }
+            h1 { color: #0077b6; text-align: center; margin-bottom: 20px; }
+            .icon { font-size: 3em; text-align: center; margin-bottom: 10px; }
+            p { margin-bottom: 15px; color: #333; }
+            .method { background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 15px 0; }
+            .method h3 { color: #0096c7; margin-bottom: 10px; }
+            .email-link { color: #0077b6; text-decoration: none; font-weight: bold; }
+            ul { margin-left: 20px; margin-bottom: 15px; }
+            li { margin-bottom: 8px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="icon">🐠</div>
+            <h1>Delete Your Data</h1>
+            
+            <p>We respect your privacy. You can delete all your Flappy Fish game data using one of these methods:</p>
+            
+            <div class="method">
+                <h3>Method 1: Uninstall the App</h3>
+                <p>Simply uninstall Flappy Fish from your device. This will remove all locally stored data.</p>
+            </div>
+            
+            <div class="method">
+                <h3>Method 2: Clear App Data</h3>
+                <p>Go to your device Settings → Apps → Flappy Fish → Storage → Clear Data</p>
+            </div>
+            
+            <div class="method">
+                <h3>Method 3: Email Request</h3>
+                <p>Send an email to <a href="mailto:flappyfishgame@gmail.com" class="email-link">flappyfishgame@gmail.com</a> with:</p>
+                <ul>
+                    <li>Subject: "Data Deletion Request"</li>
+                    <li>Your request to delete data</li>
+                </ul>
+                <p>We will process your request within 30 days.</p>
+            </div>
+            
+            <h3>What data will be deleted:</h3>
+            <ul>
+                <li>High scores and game progress</li>
+                <li>Coins and unlocked items</li>
+                <li>Achievements and statistics</li>
+                <li>Username (if set)</li>
+                <li>Leaderboard entries</li>
+            </ul>
+            
+            <p><strong>Note:</strong> Data deletion is permanent and cannot be undone.</p>
+        </div>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)
+
 @api_router.delete("/user/{user_id}/data", response_model=DataDeletionResponse)
 async def delete_user_data(user_id: str):
     """
