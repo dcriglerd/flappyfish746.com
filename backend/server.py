@@ -261,6 +261,72 @@ async def get_user_rank(user_id: str):
     
     return {"user_id": user_id, "high_score": user_score, "rank": rank}
 
+# ============== Data Deletion Routes ==============
+
+class DataDeletionRequest(BaseModel):
+    """Model for data deletion request"""
+    user_id: str
+    email: Optional[str] = None
+    reason: Optional[str] = None
+
+class DataDeletionResponse(BaseModel):
+    """Model for data deletion response"""
+    success: bool
+    message: str
+    deleted_records: int
+
+@api_router.delete("/user/{user_id}/data", response_model=DataDeletionResponse)
+async def delete_user_data(user_id: str):
+    """
+    Delete all user data from the database.
+    This endpoint is used for GDPR/Play Store data deletion compliance.
+    """
+    deleted_count = 0
+    
+    # Delete game data
+    result = await db.game_data.delete_one({"user_id": user_id})
+    deleted_count += result.deleted_count
+    
+    # Delete purchase records
+    result = await db.purchases.delete_many({"user_id": user_id})
+    deleted_count += result.deleted_count
+    
+    return DataDeletionResponse(
+        success=True,
+        message=f"All data for user {user_id} has been deleted",
+        deleted_records=deleted_count
+    )
+
+@api_router.post("/user/delete-request", response_model=DataDeletionResponse)
+async def request_data_deletion(request: DataDeletionRequest):
+    """
+    Request data deletion (alternative endpoint with more info).
+    """
+    deleted_count = 0
+    
+    # Delete game data
+    result = await db.game_data.delete_one({"user_id": request.user_id})
+    deleted_count += result.deleted_count
+    
+    # Delete purchase records
+    result = await db.purchases.delete_many({"user_id": request.user_id})
+    deleted_count += result.deleted_count
+    
+    # Log the deletion request
+    await db.deletion_requests.insert_one({
+        "user_id": request.user_id,
+        "email": request.email,
+        "reason": request.reason,
+        "deleted_records": deleted_count,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    })
+    
+    return DataDeletionResponse(
+        success=True,
+        message=f"All data for user {request.user_id} has been deleted",
+        deleted_records=deleted_count
+    )
+
 # ============== Purchase Routes ==============
 
 @api_router.post("/purchases/record", response_model=PurchaseRecordResponse)
