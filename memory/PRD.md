@@ -48,10 +48,15 @@ Build a "Flappy Bird" clone named "Flappy Fish" as a React Native mobile applica
 - [x] Fixed ad initialization (removed testDeviceIdentifiers blocker)
 - [x] Added 1-second SDK initialization delay
 - [x] Improved ad error logging
-- [x] Built preview APK for testing
+- [x] Built preview APK for testing - Test ads confirmed working
 - [x] Enabled ProGuard for production builds
-- [x] Generated AAB with version code 2
+- [x] Generated AAB with version code 3
 - [x] Deobfuscation/mapping file included in AAB
+- [x] Data deletion endpoint added to backend
+- [x] Website deployed to GitHub Pages
+- [x] DNS configured via Cloudflare
+- [x] SSL/HTTPS enabled
+- [x] Deep links configured with SHA-256 fingerprint
 
 ### Previous Sessions
 - [x] Core Flappy Fish gameplay
@@ -66,36 +71,43 @@ Build a "Flappy Bird" clone named "Flappy Fish" as a React Native mobile applica
 - [x] Static promotional website
 - [x] Privacy policy page
 - [x] ads.txt for AdMob verification
-- [x] Deep link configuration (pending SHA-256)
 - [x] IAP/Shop removal (per user request)
 
 ## Current Build Info
 | Field | Value |
 |-------|-------|
 | Version Name | 1.0.0 |
-| Version Code | 2 |
+| Version Code | 3 |
 | Package | com.flappyfish.game |
-| Latest AAB | https://expo.dev/artifacts/eas/oYegpqEVEF8PGuxSk4KtYP.aab |
+| Latest AAB | https://expo.dev/artifacts/eas/wxkjKZsfwnU1JVyf3nELw4.aab |
 
-## Pending Tasks
+## Live URLs
+| URL | Purpose |
+|-----|---------|
+| https://flappyfish746.com | Landing page |
+| https://flappyfish746.com/privacy-policy.html | Privacy policy |
+| https://flappyfish746.com/.well-known/assetlinks.json | Deep links |
 
-### P1 - In Progress
-- [ ] Deploy website to GitHub Pages (for privacy policy URL)
-- [ ] Complete Google Play Store submission
-- [ ] Verify ads working in production
+## Status: READY FOR PLAY STORE SUBMISSION ✅
 
-### P2 - Blocked
-- [ ] Finalize deep links (needs SHA-256 from Play Console after upload)
-
-### P3 - Future/Backlog
-- [ ] Add Google Analytics to website
-- [ ] Onboarding/Tutorial for new players
-- [ ] Social sharing features
+### Completed Steps:
+- [x] Privacy policy URL added
+- [x] Data safety form completed
+- [x] Ads declaration completed
+- [x] Content rating completed
+- [x] Target audience set
+- [x] AAB uploaded
+- [x] Store listing complete
+- [x] Deep links configured
+- [x] Website live with HTTPS
 
 ## API Endpoints
 - `POST /api/gamedata/` - Create/update user game data
 - `GET /api/gamedata/{user_id}/` - Get user's game data
 - `GET /api/leaderboard/` - Get top players
+- `GET /api/user/delete-request` - Data deletion page
+- `POST /api/user/delete-request` - Request data deletion
+- `DELETE /api/user/{user_id}/data` - Delete user data
 
 ## Database Schema
 **Collection:** `game_data`
@@ -113,3 +125,13 @@ Build a "Flappy Bird" clone named "Flappy Fish" as a React Native mobile applica
 - **Interstitial:** ca-app-pub-9210526164379066/1429141788
 - **Rewarded:** ca-app-pub-9210526164379066/7004902096
 - **App Open:** ca-app-pub-9210526164379066/3250641298
+
+## Deep Links Configuration
+- **SHA-256:** 91:D1:46:2A:E0:0C:6C:8E:72:13:BE:17:61:50:5F:FD:3B:DE:6E:18:9E:EE:9D:19:D9:CB:8E:14:56:D6:35:9E
+- **Package:** com.flappyfish.game
+
+## Future Tasks (Backlog)
+- [ ] Add Google Analytics to website
+- [ ] Onboarding/Tutorial for new players
+- [ ] Social sharing features
+- [ ] Monitor production ads after Play Store approval
