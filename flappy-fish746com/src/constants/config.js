@@ -5,7 +5,7 @@
 export const AD_CONFIG = {
   // Use test IDs during development (set to true to verify ads work)
   // Set to false for production release
-  USE_TEST_IDS: true,
+  USE_TEST_IDS: false,
 
   // Production Ad Unit IDs from AdMob
   PRODUCTION_IDS: {
