@@ -131,7 +131,7 @@ Build a "Flappy Bird" clone named "Flappy Fish" as a React Native mobile applica
 - **Package:** com.flappyfish.game
 
 ## Future Tasks (Backlog)
-- [ ] Add Google Analytics to website
+- [x] Add Google Analytics to website ✅ (Measurement ID: G-98YGZNQEYM)
 - [ ] Onboarding/Tutorial for new players
 - [ ] Social sharing features
 - [ ] Monitor production ads after Play Store approval
