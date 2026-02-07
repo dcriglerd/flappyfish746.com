@@ -11,6 +11,7 @@ const STORAGE_KEYS = {
   UNLOCKED_SKINS: 'flappyfish_unlockedskins',
   SELECTED_SKIN: 'flappyfish_selectedskin',
   POWER_UPS: 'flappyfish_powerups',
+  BEST_TAP_STREAK: 'flappyfish_besttapstreak',
 };
 
 export const GameProvider = ({ children }) => {
