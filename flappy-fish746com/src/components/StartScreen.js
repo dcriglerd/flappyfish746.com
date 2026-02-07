@@ -93,7 +93,7 @@ const StartScreen = ({
 
         {/* Skins Button */}
         <TouchableOpacity style={styles.skinsButton} onPress={onOpenSkins} activeOpacity={0.8}>
-          <Text style={styles.buttonText}>✨ Skins</Text>
+          <Text style={styles.skinsButtonText}>🐠 Fish Skins</Text>
         </TouchableOpacity>
 
         {/* Daily Rewards Button */}
