@@ -279,7 +279,8 @@ const FlappyFishGame = () => {
   // Handle flap with sound
   const handleFlap = useCallback(() => {
     playFlapSound();
-  }, [playFlapSound]);
+    incrementTapStreak(); // Track tap streak
+  }, [playFlapSound, incrementTapStreak]);
 
   // Handle shield hit (saved by shield)
   const handleShieldHit = useCallback(() => {
