@@ -259,14 +259,18 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   skinsButton: {
-    flex: 1,
     backgroundColor: '#9333ea',
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: 'center',
-    marginLeft: 8,
+    marginBottom: 10,
     borderWidth: 3,
     borderColor: '#5b21b6',
+  },
+  skinsButtonText: {
+    color: COLORS.WHITE,
+    fontSize: 16,
+    fontWeight: '700',
   },
   buttonText: {
     color: COLORS.WHITE,
