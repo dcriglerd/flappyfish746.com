@@ -68,17 +68,19 @@ export const GameProvider = ({ children }) => {
 
   const loadSavedData = async () => {
     try {
-      const [savedHighScore, savedCoins, savedUnlockedSkins, savedSelectedSkin, savedPowerUps] = 
+      const [savedHighScore, savedCoins, savedUnlockedSkins, savedSelectedSkin, savedPowerUps, savedBestTapStreak] = 
         await Promise.all([
           AsyncStorage.getItem(STORAGE_KEYS.HIGH_SCORE),
           AsyncStorage.getItem(STORAGE_KEYS.COINS),
           AsyncStorage.getItem(STORAGE_KEYS.UNLOCKED_SKINS),
           AsyncStorage.getItem(STORAGE_KEYS.SELECTED_SKIN),
           AsyncStorage.getItem(STORAGE_KEYS.POWER_UPS),
+          AsyncStorage.getItem(STORAGE_KEYS.BEST_TAP_STREAK),
         ]);
 
       if (savedHighScore) setHighScore(parseInt(savedHighScore));
       if (savedCoins) setCoins(parseInt(savedCoins));
+      if (savedBestTapStreak) setBestTapStreak(parseInt(savedBestTapStreak));
       
       if (savedUnlockedSkins) {
         const skins = JSON.parse(savedUnlockedSkins);
