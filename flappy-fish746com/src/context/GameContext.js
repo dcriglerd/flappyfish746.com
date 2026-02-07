@@ -142,7 +142,12 @@ export const GameProvider = ({ children }) => {
       setHighScore(score);
       await AsyncStorage.setItem(STORAGE_KEYS.HIGH_SCORE, score.toString());
     }
-  }, [score, highScore]);
+    // Update best tap streak if current is higher
+    if (currentTapStreak > bestTapStreak) {
+      setBestTapStreak(currentTapStreak);
+      await AsyncStorage.setItem(STORAGE_KEYS.BEST_TAP_STREAK, currentTapStreak.toString());
+    }
+  }, [score, highScore, currentTapStreak, bestTapStreak]);
 
   const revive = useCallback(() => {
     if (canRevive) {
