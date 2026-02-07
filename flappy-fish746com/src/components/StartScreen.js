@@ -214,16 +214,20 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: 'row',
     marginBottom: 25,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   statBox: {
     backgroundColor: 'rgba(255,255,255,0.2)',
-    paddingHorizontal: 25,
-    paddingVertical: 15,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
     borderRadius: 15,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
+    marginVertical: 5,
     alignItems: 'center',
     borderWidth: 2,
     borderColor: 'rgba(255,255,255,0.3)',
+    minWidth: 85,
   },
   statLabel: {
     color: 'rgba(255,255,255,0.8)',
