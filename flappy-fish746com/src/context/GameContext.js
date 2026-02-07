@@ -110,6 +110,7 @@ export const GameProvider = ({ children }) => {
     };
     setScore(0);
     setCanRevive(true);
+    setCurrentTapStreak(0); // Reset tap streak for new game
     // Clear power-ups on reset
     Object.values(powerUpTimersRef.current).forEach(timer => clearTimeout(timer));
     powerUpTimersRef.current = {};
