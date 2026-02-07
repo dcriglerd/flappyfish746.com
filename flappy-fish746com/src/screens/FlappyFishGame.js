@@ -442,6 +442,7 @@ const FlappyFishGame = () => {
           onOpenDailyRewards={handleOpenDailyRewards}
           highScore={highScore}
           coins={coins}
+          bestTapStreak={bestTapStreak}
           isMuted={isMuted}
           onToggleMute={handleToggleMute}
           selectedSkin={selectedSkin}
