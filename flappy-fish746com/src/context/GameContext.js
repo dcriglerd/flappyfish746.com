@@ -306,6 +306,11 @@ export const GameProvider = ({ children }) => {
     setScore((prev) => prev + 1);
   }, []);
 
+  // Increment tap streak (called on each successful flap/tap)
+  const incrementTapStreak = useCallback(() => {
+    setCurrentTapStreak((prev) => prev + 1);
+  }, []);
+
   const value = {
     // Game state
     gameState,
