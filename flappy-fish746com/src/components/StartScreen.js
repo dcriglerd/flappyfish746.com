@@ -84,6 +84,10 @@ const StartScreen = ({
           <Text style={styles.statLabel}>🪙 Coins</Text>
           <Text style={[styles.statValue, { color: COLORS.GOLD }]}>{coins}</Text>
         </View>
+        <View style={styles.statBox}>
+          <Text style={styles.statLabel}>👆 Taps</Text>
+          <Text style={[styles.statValue, { color: '#9333ea' }]}>{bestTapStreak || 0}</Text>
+        </View>
       </View>
 
       {/* Buttons */}
