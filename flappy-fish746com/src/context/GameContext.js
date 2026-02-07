@@ -21,6 +21,10 @@ export const GameProvider = ({ children }) => {
   const [coins, setCoins] = useState(0);
   const [canRevive, setCanRevive] = useState(true);
   
+  // Tap streak tracking
+  const [currentTapStreak, setCurrentTapStreak] = useState(0);
+  const [bestTapStreak, setBestTapStreak] = useState(0);
+  
   // Skins state
   const [unlockedSkins, setUnlockedSkins] = useState(['default']);
   const [selectedSkin, setSelectedSkin] = useState(FISH_SKINS[0]);
