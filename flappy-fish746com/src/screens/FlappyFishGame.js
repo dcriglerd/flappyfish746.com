@@ -55,6 +55,10 @@ const FlappyFishGame = () => {
     revive,
     addCoins,
     incrementScore,
+    // Tap streak
+    currentTapStreak,
+    bestTapStreak,
+    incrementTapStreak,
     // Skins
     unlockedSkins,
     selectedSkin,
