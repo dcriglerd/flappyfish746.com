@@ -322,6 +322,11 @@ export const GameProvider = ({ children }) => {
     canRevive,
     gameRef,
     
+    // Tap streak
+    currentTapStreak,
+    bestTapStreak,
+    incrementTapStreak,
+    
     // Game actions
     startGame,
     pauseGame,
