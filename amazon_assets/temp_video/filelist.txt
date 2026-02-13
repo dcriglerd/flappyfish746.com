@@ -1,0 +1,9 @@
+file 'frame_000.png'
+duration 3
+file 'frame_001.png'
+duration 3
+file 'frame_002.png'
+duration 3
+file 'frame_003.png'
+duration 3
+file 'frame_003.png'
