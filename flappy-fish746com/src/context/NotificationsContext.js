@@ -616,6 +616,7 @@ export const NotificationsProvider = ({ children }) => {
     expoPushToken,
     notificationsEnabled,
     permissionStatus,
+    welcomeBackData,
     
     // Actions
     toggleNotifications,
@@ -633,6 +634,11 @@ export const NotificationsProvider = ({ children }) => {
     cancelComeBackNotifications,
     onGameStart,
     onAppOpen,
+    
+    // Welcome back bonus
+    checkWelcomeBackBonus,
+    claimWelcomeBackBonus,
+    dismissWelcomeBack,
     
     // Permission
     requestPermission,
