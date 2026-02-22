@@ -552,6 +552,14 @@ const FlappyFishGame = () => {
         onClose={handleCloseProfile}
         onSave={handleUsernameSaved}
       />
+
+      {/* Welcome Back Modal */}
+      <WelcomeBackModal
+        visible={showWelcomeBack}
+        onClaim={handleClaimWelcomeBack}
+        daysAway={welcomeBackData?.daysAway || 3}
+        bonusCoins={welcomeBackData?.bonusCoins || 50}
+      />
     </View>
   );
 };
