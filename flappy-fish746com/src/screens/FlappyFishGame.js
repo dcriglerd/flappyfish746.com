@@ -251,10 +251,12 @@ const FlappyFishGame = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     coinsCollectedInGame.current = 0;
     usedPowerUpInGame.current = false;
+    // Update notifications (cancel come back, reschedule for later)
+    onNotificationGameStart();
     // Track game start for interstitial ads
     onAdsGameStart();
     startGame();
-  }, [startGame, onAdsGameStart]);
+  }, [startGame, onNotificationGameStart, onAdsGameStart]);
 
   // Handle revive with rewarded ad
   const handleRevive = useCallback(() => {
