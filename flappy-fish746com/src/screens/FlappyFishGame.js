@@ -135,6 +135,20 @@ const FlappyFishGame = () => {
     onAppOpen();
   }, [onAppOpen]);
 
+  // Check for welcome back bonus when app loads
+  useEffect(() => {
+    const checkBonus = async () => {
+      const bonus = await checkWelcomeBackBonus();
+      if (bonus) {
+        // Small delay to let the app settle before showing modal
+        setTimeout(() => {
+          setShowWelcomeBack(true);
+        }, 500);
+      }
+    };
+    checkBonus();
+  }, [checkWelcomeBackBonus]);
+
   // Update notifications when streak data changes
   useEffect(() => {
     updateStreakNotifications(currentStreak, streakClaimedToday, streakClaimedToday);
