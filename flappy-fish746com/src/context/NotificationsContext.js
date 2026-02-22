@@ -120,6 +120,12 @@ export const NotificationsProvider = ({ children }) => {
     // Listen for notification responses (when user taps)
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
       console.log('[Notifications] Tapped:', response);
+      // Handle come back notification tap - could navigate to specific screen
+      const data = response.notification.request.content.data;
+      if (data?.type === 'come_back' && data?.hasBonus) {
+        console.log('[Notifications] User returned from bonus notification!');
+        // Could trigger a bonus reward here
+      }
     });
 
     return () => {
