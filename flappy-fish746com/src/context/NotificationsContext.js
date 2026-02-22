@@ -528,6 +528,12 @@ export const NotificationsProvider = ({ children }) => {
     sendTestNotification,
     getScheduledNotifications,
     
+    // Come back / Re-engagement
+    scheduleComeBackNotifications,
+    cancelComeBackNotifications,
+    onGameStart,
+    onAppOpen,
+    
     // Permission
     requestPermission,
   };
