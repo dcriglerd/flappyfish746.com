@@ -10,6 +10,7 @@ const STORAGE_KEYS = {
   NOTIFICATIONS_ENABLED: 'flappyfish_notifications_enabled',
   PUSH_TOKEN: 'flappyfish_push_token',
   LAST_SCHEDULED: 'flappyfish_last_scheduled',
+  LAST_PLAY_TIME: 'flappyfish_last_play_time',
 };
 
 // Notification IDs for cancellation
@@ -17,6 +18,9 @@ const NOTIFICATION_IDS = {
   STREAK_REMINDER: 'streak_reminder',
   DAILY_CHALLENGE: 'daily_challenge',
   STREAK_WARNING: 'streak_warning',
+  COME_BACK_48H: 'come_back_48h',
+  COME_BACK_72H: 'come_back_72h',
+  COME_BACK_WEEK: 'come_back_week',
 };
 
 // Configure how notifications appear when app is in foreground
