@@ -38,6 +38,7 @@ const FlappyFishGame = () => {
   const [showDailyRewards, setShowDailyRewards] = useState(false);
   const [showUsernameModal, setShowUsernameModal] = useState(false);
   const [isLoadingCloudData, setIsLoadingCloudData] = useState(true);
+  const [showWelcomeBack, setShowWelcomeBack] = useState(false);
   
   const coinsCollectedInGame = useRef(0);
   const usedPowerUpInGame = useRef(false);
