@@ -484,6 +484,90 @@ export const NotificationsProvider = ({ children }) => {
     }
   }, [notificationsEnabled, scheduleComeBackNotifications]);
 
+  // Check if user qualifies for welcome back bonus
+  const checkWelcomeBackBonus = useCallback(async () => {
+    try {
+      const lastPlayTime = await AsyncStorage.getItem(STORAGE_KEYS.LAST_PLAY_TIME);
+      const welcomeBackClaimed = await AsyncStorage.getItem(STORAGE_KEYS.WELCOME_BACK_CLAIMED);
+      
+      if (!lastPlayTime) {
+        // First time user - no welcome back needed
+        return null;
+      }
+
+      const lastPlay = new Date(lastPlayTime);
+      const now = new Date();
+      const daysSinceLastPlay = Math.floor((now - lastPlay) / (1000 * 60 * 60 * 24));
+
+      // Check if already claimed for this return period
+      if (welcomeBackClaimed) {
+        const claimedDate = new Date(welcomeBackClaimed);
+        const hoursSinceClaim = (now - claimedDate) / (1000 * 60 * 60);
+        // If claimed within last 24 hours, don't show again
+        if (hoursSinceClaim < 24) {
+          return null;
+        }
+      }
+
+      // Check if qualifies for welcome back bonus
+      if (daysSinceLastPlay >= WELCOME_BACK_CONFIG.MIN_DAYS_AWAY) {
+        // Calculate bonus based on days away
+        const extraDays = Math.min(daysSinceLastPlay - WELCOME_BACK_CONFIG.MIN_DAYS_AWAY, 4);
+        const bonusCoins = Math.min(
+          WELCOME_BACK_CONFIG.BASE_BONUS + (extraDays * WELCOME_BACK_CONFIG.BONUS_PER_DAY),
+          WELCOME_BACK_CONFIG.MAX_BONUS
+        );
+
+        const welcomeData = {
+          daysAway: daysSinceLastPlay,
+          bonusCoins,
+        };
+        
+        setWelcomeBackData(welcomeData);
+        console.log('[Notifications] Welcome back bonus available:', welcomeData);
+        return welcomeData;
+      }
+
+      return null;
+    } catch (error) {
+      console.error('[Notifications] Check welcome back error:', error);
+      return null;
+    }
+  }, []);
+
+  // Claim welcome back bonus
+  const claimWelcomeBackBonus = useCallback(async () => {
+    if (!welcomeBackData) return null;
+
+    try {
+      // Mark as claimed
+      const now = new Date().toISOString();
+      await AsyncStorage.setItem(STORAGE_KEYS.WELCOME_BACK_CLAIMED, now);
+      
+      // Update last play time
+      await AsyncStorage.setItem(STORAGE_KEYS.LAST_PLAY_TIME, now);
+      
+      const bonus = welcomeBackData.bonusCoins;
+      console.log('[Notifications] Welcome back bonus claimed:', bonus);
+      
+      // Clear welcome back data
+      setWelcomeBackData(null);
+      
+      // Reschedule come back notifications
+      await scheduleComeBackNotifications();
+      
+      return bonus;
+    } catch (error) {
+      console.error('[Notifications] Claim welcome back error:', error);
+      return null;
+    }
+  }, [welcomeBackData, scheduleComeBackNotifications]);
+
+  // Dismiss welcome back without claiming (user might close modal)
+  const dismissWelcomeBack = useCallback(() => {
+    setWelcomeBackData(null);
+  }, []);
+
   // Enable/disable notifications
   const toggleNotifications = useCallback(async (enabled) => {
     setNotificationsEnabled(enabled);
