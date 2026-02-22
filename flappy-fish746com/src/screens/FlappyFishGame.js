@@ -125,6 +125,11 @@ const FlappyFishGame = () => {
 
   const { getDisplayName, username } = useAuth();
 
+  // Trigger onAppOpen for notifications when app loads
+  useEffect(() => {
+    onAppOpen();
+  }, [onAppOpen]);
+
   // Update notifications when streak data changes
   useEffect(() => {
     updateStreakNotifications(currentStreak, streakClaimedToday, streakClaimedToday);
