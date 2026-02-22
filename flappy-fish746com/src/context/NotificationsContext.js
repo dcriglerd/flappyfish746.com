@@ -478,13 +478,15 @@ export const NotificationsProvider = ({ children }) => {
       if (permissionStatus !== 'granted') {
         await requestPermission();
       }
+      // Schedule come back notifications
+      await scheduleComeBackNotifications();
     } else {
       // Cancel all scheduled notifications
       await cancelAllNotifications();
     }
     
     console.log('[Notifications] Enabled:', enabled);
-  }, [permissionStatus, requestPermission, cancelAllNotifications]);
+  }, [permissionStatus, requestPermission, cancelAllNotifications, scheduleComeBackNotifications]);
 
   // Get all scheduled notifications (for debugging)
   const getScheduledNotifications = useCallback(async () => {
