@@ -28,6 +28,7 @@ import AchievementsModal from '../components/AchievementsModal';
 import AchievementUnlockNotification from '../components/AchievementUnlockNotification';
 import DailyRewardsModal from '../components/DailyRewardsModal';
 import UsernameModal from '../components/UsernameModal';
+import WelcomeBackModal from '../components/WelcomeBackModal';
 
 const FlappyFishGame = () => {
   const [isMuted, setIsMuted] = useState(false);
