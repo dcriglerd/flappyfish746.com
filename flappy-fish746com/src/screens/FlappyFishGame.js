@@ -394,6 +394,15 @@ const FlappyFishGame = () => {
     setShowUsernameModal(false);
   }, []);
 
+  // Welcome back bonus handler
+  const handleClaimWelcomeBack = useCallback(async (bonusCoins) => {
+    setShowWelcomeBack(false);
+    await claimWelcomeBackBonus();
+    addCoins(bonusCoins);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    console.log('[Game] Welcome back bonus claimed:', bonusCoins);
+  }, [claimWelcomeBackBonus, addCoins]);
+
   const handleUsernameSaved = useCallback((newUsername) => {
     console.log('[Game] Username saved:', newUsername);
     // Trigger a sync to update backend with new username
