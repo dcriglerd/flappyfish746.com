@@ -45,6 +45,7 @@ export const NotificationsProvider = ({ children }) => {
   const [expoPushToken, setExpoPushToken] = useState(null);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [permissionStatus, setPermissionStatus] = useState(null);
+  const [welcomeBackData, setWelcomeBackData] = useState(null); // { daysAway, bonusCoins }
   const notificationListener = useRef();
   const responseListener = useRef();
 
