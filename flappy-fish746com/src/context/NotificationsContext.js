@@ -335,6 +335,139 @@ export const NotificationsProvider = ({ children }) => {
     }
   }, []);
 
+  // Schedule "Come Back" re-engagement notifications
+  const scheduleComeBackNotifications = useCallback(async () => {
+    if (!notificationsEnabled) return;
+    
+    try {
+      // Cancel existing come back notifications first
+      await Promise.all([
+        Notifications.cancelScheduledNotificationAsync(NOTIFICATION_IDS.COME_BACK_48H),
+        Notifications.cancelScheduledNotificationAsync(NOTIFICATION_IDS.COME_BACK_72H),
+        Notifications.cancelScheduledNotificationAsync(NOTIFICATION_IDS.COME_BACK_WEEK),
+      ]);
+
+      // Save last play time
+      const now = new Date().toISOString();
+      await AsyncStorage.setItem(STORAGE_KEYS.LAST_PLAY_TIME, now);
+
+      // 48 hours (2 days) notification
+      const messages48h = [
+        "🐟 Your fish misses you! Come back for a quick swim!",
+        "🌊 The ocean is lonely without you! Play now?",
+        "🎮 Haven't seen you in a while! Ready for another round?",
+        "💙 Miss swimming through pipes? We miss you too!",
+      ];
+
+      await Notifications.scheduleNotificationAsync({
+        identifier: NOTIFICATION_IDS.COME_BACK_48H,
+        content: {
+          title: '🐠 We Miss You!',
+          body: messages48h[Math.floor(Math.random() * messages48h.length)],
+          data: { type: 'come_back', days: 2 },
+          sound: true,
+        },
+        trigger: { seconds: 48 * 60 * 60 }, // 48 hours
+      });
+
+      // 72 hours (3 days) notification with bonus offer
+      const messages72h = [
+        "🎁 Come back now and get bonus coins waiting for you!",
+        "⭐ Special reward inside! Don't miss out!",
+        "🔥 Your streak reset, but you can start fresh! Play now!",
+      ];
+
+      await Notifications.scheduleNotificationAsync({
+        identifier: NOTIFICATION_IDS.COME_BACK_72H,
+        content: {
+          title: '🎁 Bonus Coins Waiting!',
+          body: messages72h[Math.floor(Math.random() * messages72h.length)],
+          data: { type: 'come_back', days: 3, hasBonus: true },
+          sound: true,
+        },
+        trigger: { seconds: 72 * 60 * 60 }, // 72 hours
+      });
+
+      // 1 week notification - last attempt
+      await Notifications.scheduleNotificationAsync({
+        identifier: NOTIFICATION_IDS.COME_BACK_WEEK,
+        content: {
+          title: '🐠 Flappy Fish Misses You!',
+          body: "It's been a while! New challenges and rewards await. Tap to play! 🎮",
+          data: { type: 'come_back', days: 7 },
+          sound: true,
+        },
+        trigger: { seconds: 7 * 24 * 60 * 60 }, // 7 days
+      });
+
+      console.log('[Notifications] Come back notifications scheduled (48h, 72h, 7d)');
+    } catch (error) {
+      console.error('[Notifications] Schedule come back error:', error);
+    }
+  }, [notificationsEnabled]);
+
+  // Cancel all come back notifications (called when user plays)
+  const cancelComeBackNotifications = useCallback(async () => {
+    try {
+      await Promise.all([
+        Notifications.cancelScheduledNotificationAsync(NOTIFICATION_IDS.COME_BACK_48H),
+        Notifications.cancelScheduledNotificationAsync(NOTIFICATION_IDS.COME_BACK_72H),
+        Notifications.cancelScheduledNotificationAsync(NOTIFICATION_IDS.COME_BACK_WEEK),
+      ]);
+      console.log('[Notifications] Come back notifications cancelled');
+    } catch (error) {
+      console.error('[Notifications] Cancel come back error:', error);
+    }
+  }, []);
+
+  // Called when user starts a game - reschedule come back notifications
+  const onGameStart = useCallback(async () => {
+    // Cancel existing come back notifications
+    await cancelComeBackNotifications();
+    // Cancel streak warning since player is playing
+    await cancelStreakWarning();
+    // Reschedule come back notifications from now
+    await scheduleComeBackNotifications();
+    
+    console.log('[Notifications] Game start - notifications updated');
+  }, [cancelComeBackNotifications, cancelStreakWarning, scheduleComeBackNotifications]);
+
+  // Called when user opens the app - check and reschedule if needed
+  const onAppOpen = useCallback(async () => {
+    if (!notificationsEnabled) return;
+    
+    try {
+      const lastPlayTime = await AsyncStorage.getItem(STORAGE_KEYS.LAST_PLAY_TIME);
+      
+      if (!lastPlayTime) {
+        // First time user - schedule come back notifications
+        await scheduleComeBackNotifications();
+        return;
+      }
+
+      const lastPlay = new Date(lastPlayTime);
+      const now = new Date();
+      const hoursSinceLastPlay = (now - lastPlay) / (1000 * 60 * 60);
+
+      // If user hasn't played in 24+ hours, make sure come back notifications are scheduled
+      if (hoursSinceLastPlay > 24) {
+        // Check if notifications are already scheduled
+        const scheduled = await Notifications.getAllScheduledNotificationsAsync();
+        const hasComeBack = scheduled.some(n => 
+          n.identifier === NOTIFICATION_IDS.COME_BACK_48H ||
+          n.identifier === NOTIFICATION_IDS.COME_BACK_72H ||
+          n.identifier === NOTIFICATION_IDS.COME_BACK_WEEK
+        );
+        
+        if (!hasComeBack) {
+          await scheduleComeBackNotifications();
+        }
+      }
+    } catch (error) {
+      console.error('[Notifications] App open check error:', error);
+    }
+  }, [notificationsEnabled, scheduleComeBackNotifications]);
+
   // Enable/disable notifications
   const toggleNotifications = useCallback(async (enabled) => {
     setNotificationsEnabled(enabled);
