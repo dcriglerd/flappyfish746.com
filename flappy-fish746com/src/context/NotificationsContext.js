@@ -11,6 +11,15 @@ const STORAGE_KEYS = {
   PUSH_TOKEN: 'flappyfish_push_token',
   LAST_SCHEDULED: 'flappyfish_last_scheduled',
   LAST_PLAY_TIME: 'flappyfish_last_play_time',
+  WELCOME_BACK_CLAIMED: 'flappyfish_welcome_back_claimed',
+};
+
+// Welcome back bonus configuration
+const WELCOME_BACK_CONFIG = {
+  MIN_DAYS_AWAY: 3,           // Minimum days away to trigger bonus
+  BASE_BONUS: 50,              // Base bonus coins
+  BONUS_PER_DAY: 10,           // Additional coins per day away (up to 7 days)
+  MAX_BONUS: 100,              // Maximum bonus coins
 };
 
 // Notification IDs for cancellation
