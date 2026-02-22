@@ -119,6 +119,8 @@ const FlappyFishGame = () => {
     updateStreakNotifications,
     scheduleDailyChallengeReminder,
     cancelStreakWarning,
+    onGameStart: onNotificationGameStart,
+    onAppOpen,
   } = useNotifications();
 
   const { getDisplayName, username } = useAuth();
