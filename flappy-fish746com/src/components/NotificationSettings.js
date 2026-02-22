@@ -66,7 +66,8 @@ const NotificationSettings = ({ compact = false }) => {
             <Text style={styles.activeDesc}>
               • Daily reminder at 8 PM{'\n'}
               • Streak warning at 10 PM (if not played){'\n'}
-              • Challenge reminders at 6 PM
+              • Challenge reminders at 6 PM{'\n'}
+              • Come back reminders (after 2-3 days inactive)
             </Text>
           </View>
         </View>
