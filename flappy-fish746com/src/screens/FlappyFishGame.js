@@ -122,6 +122,9 @@ const FlappyFishGame = () => {
     cancelStreakWarning,
     onGameStart: onNotificationGameStart,
     onAppOpen,
+    checkWelcomeBackBonus,
+    claimWelcomeBackBonus,
+    welcomeBackData,
   } = useNotifications();
 
   const { getDisplayName, username } = useAuth();
