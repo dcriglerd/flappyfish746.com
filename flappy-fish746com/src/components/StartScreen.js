@@ -172,6 +172,21 @@ const styles = StyleSheet.create({
   soundIcon: {
     fontSize: 22,
   },
+  helpButton: {
+    position: 'absolute',
+    top: 10,
+    left: 70,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  helpIcon: {
+    fontSize: 20,
+  },
   profileButton: {
     position: 'absolute',
     top: 10,
