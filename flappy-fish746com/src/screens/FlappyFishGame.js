@@ -505,6 +505,7 @@ const FlappyFishGame = () => {
           onOpenLeaderboard={handleOpenLeaderboard}
           onOpenAchievements={handleOpenAchievements}
           onOpenDailyRewards={handleOpenDailyRewards}
+          onOpenTutorial={handleOpenTutorial}
           highScore={highScore}
           coins={coins}
           bestTapStreak={bestTapStreak}
