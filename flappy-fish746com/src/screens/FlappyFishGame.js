@@ -582,6 +582,12 @@ const FlappyFishGame = () => {
         daysAway={welcomeBackData?.daysAway || 3}
         bonusCoins={welcomeBackData?.bonusCoins || 50}
       />
+
+      {/* Tutorial Modal */}
+      <TutorialModal
+        visible={showTutorial}
+        onComplete={handleTutorialComplete}
+      />
     </View>
   );
 };
