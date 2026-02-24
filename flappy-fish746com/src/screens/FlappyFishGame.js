@@ -151,6 +151,20 @@ const FlappyFishGame = () => {
     checkBonus();
   }, [checkWelcomeBackBonus]);
 
+  // Check if tutorial should be shown (first-time users)
+  useEffect(() => {
+    const checkTutorial = async () => {
+      const completed = await TutorialModal.isCompleted();
+      if (!completed && !isLoadingCloudData) {
+        // Small delay after loading completes
+        setTimeout(() => {
+          setShowTutorial(true);
+        }, 800);
+      }
+    };
+    checkTutorial();
+  }, [isLoadingCloudData]);
+
   // Update notifications when streak data changes
   useEffect(() => {
     updateStreakNotifications(currentStreak, streakClaimedToday, streakClaimedToday);
