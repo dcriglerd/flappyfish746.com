@@ -42,10 +42,15 @@ const LeaderboardModal = ({ visible, onClose, currentHighScore }) => {
         throw new Error(leaderboardResult.error || 'Failed to load leaderboard');
       }
 
-      // Fetch user's rank
-      const rankResult = await getUserRank();
-      if (rankResult.success && rankResult.data) {
-        setUserRank(rankResult.data);
+      // Fetch user's rank (don't fail if this errors)
+      try {
+        const rankResult = await getUserRank();
+        if (rankResult.success && rankResult.data) {
+          setUserRank(rankResult.data);
+        }
+      } catch (rankErr) {
+        console.log('[Leaderboard] Could not fetch user rank:', rankErr);
+        // Don't fail the whole leaderboard if just rank fails
       }
     } catch (err) {
       console.error('[Leaderboard] Error:', err);
