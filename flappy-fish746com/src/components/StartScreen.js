@@ -42,6 +42,13 @@ const StartScreen = ({
         </TouchableOpacity>
       )}
 
+      {/* Help/Tutorial button */}
+      {onOpenTutorial && (
+        <TouchableOpacity style={styles.helpButton} onPress={onOpenTutorial}>
+          <Text style={styles.helpIcon}>❓</Text>
+        </TouchableOpacity>
+      )}
+
       {/* Profile button in top right */}
       {onOpenProfile && (
         <TouchableOpacity style={styles.profileButton} onPress={onOpenProfile}>
