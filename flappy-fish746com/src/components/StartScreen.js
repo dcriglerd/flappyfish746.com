@@ -18,6 +18,7 @@ const StartScreen = ({
   onOpenAchievements,
   onOpenDailyRewards,
   onOpenProfile,
+  onOpenTutorial,
   highScore, 
   coins,
   bestTapStreak,
