@@ -140,13 +140,14 @@ export const CloudSyncProvider = ({ children }) => {
 
   // Get user's rank
   const getUserRank = useCallback(async () => {
-    if (!userId) return { success: false };
+    if (!userId) return { success: true, data: { rank: null } };
     
     try {
       const response = await fetch(`${API_BASE_URL}/leaderboard/${userId}/rank`);
       
       if (response.status === 404) {
-        return { success: true, data: { rank: null } };
+        // User not found - this is okay for new users who haven't synced yet
+        return { success: true, data: { rank: null, high_score: 0 } };
       }
       
       if (!response.ok) {
@@ -157,7 +158,8 @@ export const CloudSyncProvider = ({ children }) => {
       return { success: true, data };
     } catch (err) {
       console.error('[CloudSync] Rank error:', err);
-      return { success: false, error: err.message };
+      // Return success with null rank instead of failing completely
+      return { success: true, data: { rank: null, high_score: 0 } };
     }
   }, [userId]);
 
