@@ -419,6 +419,12 @@ const FlappyFishGame = () => {
     console.log('[Game] Welcome back bonus claimed:', bonusCoins);
   }, [claimWelcomeBackBonus, addCoins]);
 
+  // Tutorial completion handler
+  const handleTutorialComplete = useCallback(() => {
+    setShowTutorial(false);
+    console.log('[Game] Tutorial completed');
+  }, []);
+
   const handleUsernameSaved = useCallback((newUsername) => {
     console.log('[Game] Username saved:', newUsername);
     // Trigger a sync to update backend with new username
