@@ -425,6 +425,12 @@ const FlappyFishGame = () => {
     console.log('[Game] Tutorial completed');
   }, []);
 
+  // Open tutorial manually
+  const handleOpenTutorial = useCallback(async () => {
+    await TutorialModal.resetTutorial();
+    setShowTutorial(true);
+  }, []);
+
   const handleUsernameSaved = useCallback((newUsername) => {
     console.log('[Game] Username saved:', newUsername);
     // Trigger a sync to update backend with new username
