@@ -39,7 +39,7 @@
         "backgroundColor": "#00b4d8"
       },
       "package": "com.flappyfish.game",
-      "versionCode": 9,
+      "versionCode": 10,
       "permissions": [
         "com.google.android.gms.permission.AD_ID"
       ],
