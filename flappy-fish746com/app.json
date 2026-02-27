@@ -81,6 +81,8 @@
             "useFrameworks": "static"
           },
           "android": {
+            "minSdkVersion": 21,
+            "targetSdkVersion": 34,
             "enableProguardInReleaseBuilds": true,
             "enableShrinkResourcesInReleaseBuilds": true
           }
