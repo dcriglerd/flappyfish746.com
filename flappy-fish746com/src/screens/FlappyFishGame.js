@@ -433,6 +433,15 @@ const FlappyFishGame = () => {
     setShowTutorial(true);
   }, []);
 
+  // Open legal modal
+  const handleOpenLegal = useCallback(() => {
+    setShowLegal(true);
+  }, []);
+
+  const handleCloseLegal = useCallback(() => {
+    setShowLegal(false);
+  }, []);
+
   const handleUsernameSaved = useCallback((newUsername) => {
     console.log('[Game] Username saved:', newUsername);
     // Trigger a sync to update backend with new username
