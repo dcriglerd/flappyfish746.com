@@ -195,6 +195,21 @@ const styles = StyleSheet.create({
   helpIcon: {
     fontSize: 20,
   },
+  legalButton: {
+    position: 'absolute',
+    top: 10,
+    left: 125,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  legalIcon: {
+    fontSize: 18,
+  },
   profileButton: {
     position: 'absolute',
     top: 10,
