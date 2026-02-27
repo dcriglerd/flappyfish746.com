@@ -30,6 +30,7 @@ import DailyRewardsModal from '../components/DailyRewardsModal';
 import UsernameModal from '../components/UsernameModal';
 import WelcomeBackModal from '../components/WelcomeBackModal';
 import TutorialModal from '../components/TutorialModal';
+import LegalModal from '../components/LegalModal';
 
 const FlappyFishGame = () => {
   const [isMuted, setIsMuted] = useState(false);
