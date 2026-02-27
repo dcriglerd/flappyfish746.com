@@ -607,6 +607,12 @@ const FlappyFishGame = () => {
         visible={showTutorial}
         onComplete={handleTutorialComplete}
       />
+
+      {/* Legal Modal */}
+      <LegalModal
+        visible={showLegal}
+        onClose={handleCloseLegal}
+      />
     </View>
   );
 };
