@@ -19,6 +19,7 @@ const StartScreen = ({
   onOpenDailyRewards,
   onOpenProfile,
   onOpenTutorial,
+  onOpenLegal,
   highScore, 
   coins,
   bestTapStreak,
