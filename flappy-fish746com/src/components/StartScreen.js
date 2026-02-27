@@ -50,6 +50,13 @@ const StartScreen = ({
         </TouchableOpacity>
       )}
 
+      {/* Legal/Settings button */}
+      {onOpenLegal && (
+        <TouchableOpacity style={styles.legalButton} onPress={onOpenLegal}>
+          <Text style={styles.legalIcon}>⚖️</Text>
+        </TouchableOpacity>
+      )}
+
       {/* Profile button in top right */}
       {onOpenProfile && (
         <TouchableOpacity style={styles.profileButton} onPress={onOpenProfile}>
