@@ -86,10 +86,10 @@ const StartScreen = ({
 
       {/* Profile button in top right */}
       {onOpenProfile && (
-        <TouchableOpacity style={styles.profileButton} onPress={onOpenProfile}>
+        <FocusableButton style={styles.profileButton} onPress={onOpenProfile}>
           <Text style={styles.profileIcon}>👤</Text>
           <Text style={styles.profileName} numberOfLines={1}>{displayName || 'Player'}</Text>
-        </TouchableOpacity>
+        </FocusableButton>
       )}
 
       {/* Title with Fish */}
