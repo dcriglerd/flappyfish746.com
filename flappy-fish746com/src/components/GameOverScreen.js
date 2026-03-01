@@ -95,6 +95,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
+  // TV Focus state
+  focusedButton: {
+    borderWidth: 3,
+    borderColor: '#00d4ff',
+    transform: [{ scale: 1.05 }],
+    shadowColor: '#00d4ff',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    elevation: 10,
+  },
   gameOverTitle: {
     fontSize: 36,
     fontWeight: '900',
