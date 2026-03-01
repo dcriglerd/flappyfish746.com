@@ -135,17 +135,17 @@ const StartScreen = ({
 
       {/* Buttons */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.startButton} onPress={onStart} activeOpacity={0.8}>
+        <FocusableButton style={styles.startButton} onPress={onStart} activeOpacity={0.8} hasTVPreferredFocus={true}>
           <Text style={styles.startButtonText}>▶ START</Text>
-        </TouchableOpacity>
+        </FocusableButton>
 
         {/* Skins Button */}
-        <TouchableOpacity style={styles.skinsButton} onPress={onOpenSkins} activeOpacity={0.8}>
+        <FocusableButton style={styles.skinsButton} onPress={onOpenSkins} activeOpacity={0.8}>
           <Text style={styles.skinsButtonText}>🐠 Fish Skins</Text>
-        </TouchableOpacity>
+        </FocusableButton>
 
         {/* Daily Rewards Button */}
-        <TouchableOpacity 
+        <FocusableButton 
           style={[styles.dailyRewardsButton, hasUnclaimedStreak && styles.dailyRewardsButtonGlow]} 
           onPress={onOpenDailyRewards} 
           activeOpacity={0.8}
@@ -153,19 +153,19 @@ const StartScreen = ({
           <Text style={styles.dailyRewardsButtonText}>
             🎁 Daily Rewards {currentStreak > 0 ? `🔥${currentStreak}` : ''} {hasUnclaimedStreak ? '!' : ''}
           </Text>
-        </TouchableOpacity>
+        </FocusableButton>
 
         {/* Leaderboard Button */}
-        <TouchableOpacity 
+        <FocusableButton 
           style={styles.leaderboardButton} 
           onPress={onOpenLeaderboard} 
           activeOpacity={0.8}
         >
           <Text style={styles.leaderboardButtonText}>🏆 Leaderboard</Text>
-        </TouchableOpacity>
+        </FocusableButton>
 
         {/* Achievements Button */}
-        <TouchableOpacity 
+        <FocusableButton 
           style={styles.achievementsButton} 
           onPress={onOpenAchievements} 
           activeOpacity={0.8}
@@ -173,7 +173,7 @@ const StartScreen = ({
           <Text style={styles.achievementsButtonText}>
             🏅 Achievements {achievementProgress ? `(${achievementProgress})` : ''}
           </Text>
-        </TouchableOpacity>
+        </FocusableButton>
       </View>
 
       {/* Instruction */}
