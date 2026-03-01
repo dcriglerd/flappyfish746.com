@@ -111,45 +111,54 @@ const StartScreen = ({
 
       {/* Buttons */}
       <View style={styles.buttonsContainer}>
-        <FocusableButton style={styles.startButton} onPress={onStart} activeOpacity={0.8} hasTVPreferredFocus={true}>
+        <TouchableOpacity style={styles.startButton} onPress={onStart} activeOpacity={0.8} accessible={true} accessibilityRole="button" accessibilityLabel="Start game">
           <Text style={styles.startButtonText}>▶ START</Text>
-        </FocusableButton>
+        </TouchableOpacity>
 
         {/* Skins Button */}
-        <FocusableButton style={styles.skinsButton} onPress={onOpenSkins} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.skinsButton} onPress={onOpenSkins} activeOpacity={0.8} accessible={true} accessibilityRole="button" accessibilityLabel="Fish skins">
           <Text style={styles.skinsButtonText}>🐠 Fish Skins</Text>
-        </FocusableButton>
+        </TouchableOpacity>
 
         {/* Daily Rewards Button */}
-        <FocusableButton 
+        <TouchableOpacity 
           style={[styles.dailyRewardsButton, hasUnclaimedStreak && styles.dailyRewardsButtonGlow]} 
           onPress={onOpenDailyRewards} 
           activeOpacity={0.8}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Daily rewards"
         >
           <Text style={styles.dailyRewardsButtonText}>
             🎁 Daily Rewards {currentStreak > 0 ? `🔥${currentStreak}` : ''} {hasUnclaimedStreak ? '!' : ''}
           </Text>
-        </FocusableButton>
+        </TouchableOpacity>
 
         {/* Leaderboard Button */}
-        <FocusableButton 
+        <TouchableOpacity 
           style={styles.leaderboardButton} 
           onPress={onOpenLeaderboard} 
           activeOpacity={0.8}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Leaderboard"
         >
           <Text style={styles.leaderboardButtonText}>🏆 Leaderboard</Text>
-        </FocusableButton>
+        </TouchableOpacity>
 
         {/* Achievements Button */}
-        <FocusableButton 
+        <TouchableOpacity 
           style={styles.achievementsButton} 
           onPress={onOpenAchievements} 
           activeOpacity={0.8}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Achievements"
         >
           <Text style={styles.achievementsButtonText}>
             🏅 Achievements {achievementProgress ? `(${achievementProgress})` : ''}
           </Text>
-        </FocusableButton>
+        </TouchableOpacity>
       </View>
 
       {/* Instruction */}
