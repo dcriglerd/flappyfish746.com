@@ -41,23 +41,23 @@ const StartScreen = ({
     <View style={styles.container}>
       {/* Sound toggle in corner */}
       {onToggleMute && (
-        <FocusableButton style={styles.soundButton} onPress={onToggleMute}>
+        <TouchableOpacity style={styles.soundButton} onPress={onToggleMute} accessible={true} accessibilityRole="button" accessibilityLabel="Toggle sound">
           <Text style={styles.soundIcon}>{isMuted ? '🔇' : '🔊'}</Text>
-        </FocusableButton>
+        </TouchableOpacity>
       )}
 
       {/* Help/Tutorial button */}
       {onOpenTutorial && (
-        <FocusableButton style={styles.helpButton} onPress={onOpenTutorial}>
+        <TouchableOpacity style={styles.helpButton} onPress={onOpenTutorial} accessible={true} accessibilityRole="button" accessibilityLabel="Help">
           <Text style={styles.helpIcon}>❓</Text>
-        </FocusableButton>
+        </TouchableOpacity>
       )}
 
       {/* Legal/Settings button */}
       {onOpenLegal && (
-        <FocusableButton style={styles.legalButton} onPress={onOpenLegal}>
+        <TouchableOpacity style={styles.legalButton} onPress={onOpenLegal} accessible={true} accessibilityRole="button" accessibilityLabel="Legal information">
           <Text style={styles.legalIcon}>⚖️</Text>
-        </FocusableButton>
+        </TouchableOpacity>
       )}
 
       {/* Profile button in top right */}
