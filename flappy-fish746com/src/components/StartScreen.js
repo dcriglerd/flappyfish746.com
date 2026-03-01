@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -11,30 +11,6 @@ import Svg, { Ellipse, Polygon, Circle } from 'react-native-svg';
 import { COLORS } from '../constants/config';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const isTV = Platform.isTV;
-
-// TV-compatible button with focus states
-const FocusableButton = ({ children, style, onPress, hasTVPreferredFocus, ...props }) => {
-  const [focused, setFocused] = React.useState(false);
-  
-  return (
-    <TouchableOpacity
-      style={[
-        style,
-        focused && styles.focusedButton,
-      ]}
-      onPress={onPress}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      accessible={true}
-      accessibilityRole="button"
-      hasTVPreferredFocus={hasTVPreferredFocus}
-      {...props}
-    >
-      {children}
-    </TouchableOpacity>
-  );
-};
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
