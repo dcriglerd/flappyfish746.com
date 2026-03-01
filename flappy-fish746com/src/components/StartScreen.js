@@ -192,6 +192,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
+  // TV Focus state for all buttons
+  focusedButton: {
+    borderWidth: 3,
+    borderColor: '#00d4ff',
+    transform: [{ scale: 1.05 }],
+    shadowColor: '#00d4ff',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    elevation: 10,
+  },
   soundButton: {
     position: 'absolute',
     top: 10,
