@@ -5,12 +5,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  Platform,
 } from 'react-native';
 import Svg, { Ellipse, Polygon, Circle } from 'react-native-svg';
 import { COLORS } from '../constants/config';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
