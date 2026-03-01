@@ -4,32 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Platform,
 } from 'react-native';
 import { COLORS } from '../constants/config';
-
-// TV-compatible button with focus states
-const FocusableButton = ({ children, style, onPress, hasTVPreferredFocus, ...props }) => {
-  const [focused, setFocused] = React.useState(false);
-  
-  return (
-    <TouchableOpacity
-      style={[
-        style,
-        focused && styles.focusedButton,
-      ]}
-      onPress={onPress}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      accessible={true}
-      accessibilityRole="button"
-      hasTVPreferredFocus={hasTVPreferredFocus}
-      {...props}
-    >
-      {children}
-    </TouchableOpacity>
-  );
-};
 
 const GameOverScreen = ({
   score,
