@@ -45,19 +45,19 @@ const GameOverScreen = ({
 
       {/* Revive Button */}
       {canRevive && (
-        <FocusableButton style={styles.reviveButton} onPress={onRevive}>
+        <TouchableOpacity style={styles.reviveButton} onPress={onRevive} accessible={true} accessibilityRole="button" accessibilityLabel="Watch ad to revive">
           <Text style={styles.reviveButtonText}>🎥 Watch Ad to Revive</Text>
-        </FocusableButton>
+        </TouchableOpacity>
       )}
 
       {/* Action Buttons */}
       <View style={styles.actionButtons}>
-        <FocusableButton style={styles.retryButton} onPress={onRetry} hasTVPreferredFocus={true}>
+        <TouchableOpacity style={styles.retryButton} onPress={onRetry} accessible={true} accessibilityRole="button" accessibilityLabel="Retry">
           <Text style={styles.retryButtonText}>🔄 RETRY</Text>
-        </FocusableButton>
-        <FocusableButton style={styles.homeButton} onPress={onHome}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.homeButton} onPress={onHome} accessible={true} accessibilityRole="button" accessibilityLabel="Menu">
           <Text style={styles.homeButtonText}>🏠 Menu</Text>
-        </FocusableButton>
+        </TouchableOpacity>
       </View>
     </View>
   );
